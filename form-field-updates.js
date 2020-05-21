@@ -1,6 +1,6 @@
-// A JavaScript function to be put in a Custom HTML tag in Google Tag Manager that can be used to monitor the changes in HTML form fields and monitor form abandonment
-//
+// Description: A JavaScript function to be put in a Custom HTML tag in Google Tag Manager that can be used to monitor the changes in HTML form fields and monitor form abandonment through data layer events
 // Author: Victor Sarker
+// Version: 1.01
 // Note: This code has been adapted from Simo Ahava's 'Track Form Abandonment With Google Tag Manager' code snippets on: https://www.simoahava.com/analytics/track-form-abandonment-with-google-tag-manager/
 
 (function formFieldUpdates() {
@@ -19,7 +19,7 @@
 
     // get all 'input' and 'select' elements from within the form with the chosen attribute
     window.document.querySelectorAll(inputSelector).forEach(function (input) {
-        inputs.push(input)
+        inputs.push(input);
     });
 
     for (var input of inputs) {
@@ -50,8 +50,8 @@
 
     // listen out for changes for any of the specified form input text fields (using regex)
     window.document.querySelector(formSelector).addEventListener('change', function (e) {
-        updateHistory.push(e['target'].getAttribute(attribute));
-        newObj[e['target'].getAttribute(attribute)] = e['target'].value;
+        updateHistory.push(e.target.getAttribute(attribute));
+        newObj[e.target.getAttribute(attribute)] = e.target.value;
     });
 
     // listen out for the form submission event and compare objects for any updated fields
@@ -59,9 +59,9 @@
         eventAction = getUpdatedProps(newObj, initObj);
         if (updateHistory.length && (newObj !== initObj)) {
             window.dataLayer.push({
-                'event': 'formFieldsUpdated',
-                'eventCategory': 'Form Fields Updated',
-                'eventAction': eventAction
+                event: 'formFieldsUpdated',
+                eventCategory: 'Form Fields Updated',
+                eventAction: eventAction
             })
         }
     });
@@ -71,7 +71,7 @@
     var checkSubmit = function () {
         i = window.dataLayer.length - 1;
         while (i > -1) {
-            if (window.dataLayer[i]['event'] === 'gtm.formSubmit') {
+            if (window.dataLayer[i].event === 'gtm.formSubmit') {
                 return true;
             }
             i--;
@@ -81,9 +81,9 @@
     window.addEventListener('beforeunload', function () {
         if (!checkSubmit()) {
             window.dataLayer.push({
-                'event': 'formAbandonment',
-                'eventCategory': 'Form Abandonment',
-                'eventAction': updateHistory.join(' > ')
+                event: 'formAbandonment',
+                eventCategory: 'Form Abandonment',
+                eventAction: updateHistory.join(' > ')
             });
         }
     });
