@@ -1,6 +1,6 @@
 // Description: A JavaScript function to be put in a Custom HTML tag in Google Tag Manager that can be used to monitor the changes in HTML form fields and monitor form abandonment through data layer events
 // Author: Victor Sarker
-// Version: 1.01
+// Version: 1.02
 // Note: This code has been adapted from Simo Ahava's 'Track Form Abandonment With Google Tag Manager' code snippets on: https://www.simoahava.com/analytics/track-form-abandonment-with-google-tag-manager/
 
 (function formFieldUpdates() {
@@ -15,7 +15,7 @@
     var inputSelector = formSelector + ' input[' + attribute + '], ' + formSelector + ' select[' + attribute + ']';
     var inputs = [];
     var initObj = {};
-    var eventAction, i;
+    var eventAction;
 
     // get all 'input' and 'select' elements from within the form with the chosen attribute
     window.document.querySelectorAll(inputSelector).forEach(function (input) {
@@ -45,7 +45,7 @@
                 }
             }
         }
-        return updates.join(', ')
+        return updates.join(', ');
     }
 
     // listen out for changes for any of the specified form input text fields (using regex)
